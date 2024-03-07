@@ -1,5 +1,6 @@
 import { useState } from "react";
 import QUESTIONS from "../questions";
+import quizCompleteImg from "../assets/quiz-complete.png";
 
 export default function Quiz() {
   //유저에게 입력된 답
@@ -7,14 +8,26 @@ export default function Quiz() {
 
   const activeQuestionIndex = userAnswers.length;
 
-  const shuffledAnswers = [...QUESTIONS[activeQuestionIndex].answers];
-  shuffledAnswers.sort(() => Math.random() - 0.5);
+  const quizIsComplete = activeQuestionIndex === QUESTIONS.length;
 
   function handleSelectAnswer(selectedAnswer) {
     setUserAnswers((prevUserAnswer) => {
       return [...prevUserAnswer, selectedAnswer];
     });
   }
+
+  if (quizIsComplete) {
+    return (
+      <div id="summary">
+        <img src={quizCompleteImg} alt="Trophy Icon" />
+        <h2>Quiz Completed</h2>
+      </div>
+    );
+  }
+
+  const shuffledAnswers = [...QUESTIONS[activeQuestionIndex].answers];
+  shuffledAnswers.sort(() => Math.random() - 0.5);
+
   return (
     <div id="quiz">
       <div id="question">
